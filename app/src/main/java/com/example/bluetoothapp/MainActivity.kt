@@ -7,6 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -20,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -54,29 +57,18 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-sealed class Screen(val route: String, val icon: Int, val title: String) {
-    object Home : Screen("home", R.drawable.ic_home_black_24dp, "Home")
-    object Dashboard : Screen("dashboard", R.drawable.ic_dashboard_black_24dp, "Dashboard")
-    object Notifications : Screen("notifications", R.drawable.ic_notifications_black_24dp, "Notifications")
-
-    companion object {
-        fun fromRoute(route: String?): Screen {
-            return when (route) {
-                Home.route -> Home
-                Dashboard.route -> Dashboard
-                Notifications.route -> Notifications
-                else -> Home
-            }
-        }
-    }
+sealed class Screen(val route: String, val icon: androidx.compose.ui.graphics.vector.ImageVector, val title: String) {
+    object Devices : Screen("devices", Icons.Default.Home, "Devices")
+    object Services : Screen("services", Icons.Default.Settings, "Services")
+    object Logs : Screen("logs", Icons.Default.List, "Logs")
 }
 
 @Composable
 fun MainScreen() {
     Log.d(TAG, "MainScreen composition started")
     val navController = rememberNavController()
-    var currentRoute by remember { mutableStateOf(Screen.Home.route) }
-    val items = remember { listOf(Screen.Home, Screen.Dashboard, Screen.Notifications) }
+    var currentRoute by remember { mutableStateOf(Screen.Devices.route) }
+    val items = remember { listOf(Screen.Devices, Screen.Services, Screen.Logs) }
 
     Scaffold(
         bottomBar = {
@@ -85,7 +77,7 @@ fun MainScreen() {
                     NavigationBarItem(
                         icon = { 
                             Icon(
-                                painter = painterResource(id = screen.icon),
+                                imageVector = screen.icon,
                                 contentDescription = screen.title
                             )
                         },
@@ -108,19 +100,19 @@ fun MainScreen() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Devices.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screen.Home.route) { 
-                Log.d(TAG, "Composing Home screen")
+            composable(Screen.Devices.route) { 
+                Log.d(TAG, "Composing Devices screen")
                 HomeScreen() 
             }
-            composable(Screen.Dashboard.route) { 
-                Log.d(TAG, "Composing Dashboard screen")
+            composable(Screen.Services.route) { 
+                Log.d(TAG, "Composing Services screen")
                 DashboardScreen() 
             }
-            composable(Screen.Notifications.route) { 
-                Log.d(TAG, "Composing Notifications screen")
+            composable(Screen.Logs.route) { 
+                Log.d(TAG, "Composing Logs screen")
                 NotificationsScreen() 
             }
         }
