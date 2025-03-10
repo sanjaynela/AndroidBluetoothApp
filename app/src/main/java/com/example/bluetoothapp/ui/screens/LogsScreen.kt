@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.example.bluetoothapp.BluetoothManager
 
 @Composable
-fun NotificationsScreen() {
+fun LogsScreen() {
     val bluetoothManager = remember { BluetoothManager.getInstance() }
     val connectedDevice by bluetoothManager.connectedDevice
     val logs = bluetoothManager.logs

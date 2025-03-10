@@ -18,7 +18,7 @@ import com.example.bluetoothapp.BluetoothManager
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun DashboardScreen() {
+fun ServicesScreen() {
     val context = LocalContext.current
     val bluetoothManager = remember { BluetoothManager.getInstance() }
     val connectedDevice by bluetoothManager.connectedDevice

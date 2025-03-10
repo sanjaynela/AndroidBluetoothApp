@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.bluetoothapp.BluetoothManager
 
 @Composable
-fun HomeScreen() {
+fun DevicesScreen() {
     val context = LocalContext.current
     val bluetoothManager = remember { BluetoothManager.getInstance() }
     val isScanning by bluetoothManager.isScanning

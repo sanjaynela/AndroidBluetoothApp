@@ -29,9 +29,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bluetoothapp.ui.theme.BluetoothAppTheme
-import com.example.bluetoothapp.ui.screens.HomeScreen
-import com.example.bluetoothapp.ui.screens.DashboardScreen
-import com.example.bluetoothapp.ui.screens.NotificationsScreen
+import com.example.bluetoothapp.ui.screens.DevicesScreen
+import com.example.bluetoothapp.ui.screens.ServicesScreen
+import com.example.bluetoothapp.ui.screens.LogsScreen
 
 private const val TAG = "MainActivity"
 
@@ -105,15 +105,15 @@ fun MainScreen() {
         ) {
             composable(Screen.Devices.route) { 
                 Log.d(TAG, "Composing Devices screen")
-                HomeScreen() 
+                DevicesScreen() 
             }
             composable(Screen.Services.route) { 
                 Log.d(TAG, "Composing Services screen")
-                DashboardScreen() 
+                ServicesScreen() 
             }
             composable(Screen.Logs.route) { 
                 Log.d(TAG, "Composing Logs screen")
-                NotificationsScreen() 
+                LogsScreen() 
             }
         }
     }
