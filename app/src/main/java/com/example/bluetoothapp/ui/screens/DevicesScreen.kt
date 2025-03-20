@@ -14,14 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.bluetoothapp.BluetoothManager
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bluetoothapp.ui.viewmodels.DevicesViewModel
 
 @Composable
-fun DevicesScreen() {
+fun DevicesScreen(
+    viewModel: DevicesViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
-    val bluetoothManager = remember { BluetoothManager.getInstance() }
-    val isScanning by bluetoothManager.isScanning
-    val devices = bluetoothManager.devices
+    val isScanning by viewModel.isScanning
+    val devices = viewModel.devices
 
     // Permission launcher
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -29,7 +31,7 @@ fun DevicesScreen() {
     ) { permissions ->
         val allGranted = permissions.values.all { it }
         if (allGranted) {
-            bluetoothManager.initialize(context)
+            viewModel.initialize(context)
         }
     }
 
@@ -66,9 +68,9 @@ fun DevicesScreen() {
         Button(
             onClick = { 
                 if (isScanning) {
-                    bluetoothManager.stopScan()
+                    viewModel.stopScan()
                 } else {
-                    bluetoothManager.startScan(context)
+                    viewModel.startScan(context)
                 }
             },
             modifier = Modifier
@@ -89,7 +91,7 @@ fun DevicesScreen() {
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
                     onClick = {
-                        bluetoothManager.connectToDevice(context, device)
+                        viewModel.connectToDevice(context, device)
                     }
                 ) {
                     Column(

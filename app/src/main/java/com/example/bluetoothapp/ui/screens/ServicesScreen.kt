@@ -14,15 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.bluetoothapp.BluetoothManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bluetoothapp.ui.viewmodels.ServicesViewModel
 
 @Composable
-fun ServicesScreen() {
+fun ServicesScreen(
+    viewModel: ServicesViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
-    val bluetoothManager = remember { BluetoothManager.getInstance() }
-    val connectedDevice by bluetoothManager.connectedDevice
-    val services = bluetoothManager.services
+    val connectedDevice by viewModel.connectedDevice
+    val services = viewModel.services
 
     Column(
         modifier = Modifier
@@ -73,7 +75,7 @@ fun ServicesScreen() {
             modifier = Modifier.weight(1f)
         ) {
             items(services) { service ->
-                ServiceCard(service = service, bluetoothManager = bluetoothManager)
+                ServiceCard(service = service, viewModel = viewModel)
             }
         }
     }
@@ -82,7 +84,7 @@ fun ServicesScreen() {
 @Composable
 fun ServiceCard(
     service: BluetoothGattService,
-    bluetoothManager: BluetoothManager
+    viewModel: ServicesViewModel
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -121,7 +123,7 @@ fun ServiceCard(
             if (expanded) {
                 Spacer(modifier = Modifier.height(8.dp))
                 service.characteristics.forEach { characteristic ->
-                    CharacteristicItem(characteristic = characteristic, bluetoothManager = bluetoothManager)
+                    CharacteristicItem(characteristic = characteristic, viewModel = viewModel)
                     Divider(modifier = Modifier.padding(vertical = 8.dp))
                 }
             }
@@ -132,9 +134,8 @@ fun ServiceCard(
 @Composable
 fun CharacteristicItem(
     characteristic: BluetoothGattCharacteristic,
-    bluetoothManager: BluetoothManager
+    viewModel: ServicesViewModel
 ) {
-    // Get the current context
     val context = LocalContext.current
 
     Column(
@@ -172,7 +173,7 @@ fun CharacteristicItem(
 
         if ((characteristic.properties and BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
             Button(
-                onClick = { bluetoothManager.readCharacteristic(context, characteristic) },
+                onClick = { viewModel.readCharacteristic(context, characteristic) },
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text("Read Value")

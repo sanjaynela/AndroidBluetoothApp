@@ -8,13 +8,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.bluetoothapp.BluetoothManager
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.bluetoothapp.ui.viewmodels.LogsViewModel
 
 @Composable
-fun LogsScreen() {
-    val bluetoothManager = remember { BluetoothManager.getInstance() }
-    val connectedDevice by bluetoothManager.connectedDevice
-    val logs = bluetoothManager.logs
+fun LogsScreen(
+    viewModel: LogsViewModel = hiltViewModel()
+) {
+    val connectedDevice by viewModel.connectedDevice
+    val logs = viewModel.logs
 
     Column(
         modifier = Modifier
@@ -52,7 +54,7 @@ fun LogsScreen() {
                     )
                     if (connectedDevice != null) {
                         Button(
-                            onClick = { bluetoothManager.disconnect() }
+                            onClick = { viewModel.disconnect() }
                         ) {
                             Text("Disconnect")
                         }

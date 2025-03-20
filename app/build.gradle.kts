@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")  // Add this if not present
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -38,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"
@@ -78,14 +81,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    implementation ("com.google.dagger:hilt-android:2.55")
-    annotationProcessor ("com.google.dagger:hilt-compiler:2.55")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+}
 
-    // For instrumentation tests
-    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.55")
-    androidTestAnnotationProcessor ("com.google.dagger:hilt-compiler:2.55")
-
-    // For local unit tests
-    testImplementation ("com.google.dagger:hilt-android-testing:2.55")
-    testAnnotationProcessor ("com.google.dagger:hilt-compiler:2.55")
+kapt {
+    correctErrorTypes = true
 }
