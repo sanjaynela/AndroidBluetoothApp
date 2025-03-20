@@ -77,4 +77,15 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation ("com.google.dagger:hilt-android:2.55")
+    annotationProcessor ("com.google.dagger:hilt-compiler:2.55")
+
+    // For instrumentation tests
+    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.55")
+    androidTestAnnotationProcessor ("com.google.dagger:hilt-compiler:2.55")
+
+    // For local unit tests
+    testImplementation ("com.google.dagger:hilt-android-testing:2.55")
+    testAnnotationProcessor ("com.google.dagger:hilt-compiler:2.55")
 }
